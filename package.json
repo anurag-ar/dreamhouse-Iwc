@@ -53,3 +53,17 @@
     },
     "dependencies": {}
 }
+
+sqp_7eab7edf0d9e3faa15f050644883206029fc6ea7
+
+
+mvn clean verify sonar:sonar \
+  -Dsonar.projectKey=demologin \
+  -Dsonar.host.url=http://localhost:9000 \
+  -Dsonar.login=sqp_7eab7edf0d9e3faa15f050644883206029fc6ea7
+
+sonar pipeline token-squ_dce3fdf88b2a208ac2ca49b2b7a1e90afd30b6f7
+
+sonarqube-sqp_fdbfefe7376afd80898a4bd9ebd20832981870fe
+
+sonar-scanner.bat -D"sonar.projectKey=sonarqube" -D"sonar.sources=." -D"sonar.host.url=http://localhost:9000" -D"sonar.login=sqp_fdbfefe7376afd80898a4bd9ebd20832981870fe"
