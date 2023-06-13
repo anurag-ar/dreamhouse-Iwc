@@ -1,0 +1,75 @@
+//Ex-1: Update Single Record
+    public void testMethod1_system_Update(){
+        Account acc = [SELECT Id, Name, Industry FROM Account WHERE Id = '001XXXXXXXXXXXX' with SYSTEM_MODE];
+    acc.Industry = 'Technology';
+    update as system acc;
+    }
+    
+    //Ex-2: Update Multiple records
+    public void testMethod2_system_Update(){
+        List<Account> accounts = [SELECT Id, Name, Industry FROM Account WHERE Industry = 'Finance' with SYSTEM_MODE LIMIT 100];
+        for (Account acc : accounts) {
+            acc.Industry = 'Banking';
+        }
+    update as system accounts;
+    }
+    
+    //Ex-3: Update multiple records based on condition
+    public void testMethod3_system_Update(){
+        List<Account> accountsToUpdate = new List<Account>();
+        for (Account acc : [SELECT Id, Name, AnnualRevenue FROM Account WHERE AnnualRevenue > 1000000 with SYSTEM_MODE]) {
+            if(acc.AnnualRevenue != null){
+                acc.AnnualRevenue = acc.AnnualRevenue * 1.1;
+                accountsToUpdate.add(acc);
+                }
+        }
+    update as system accountsToUpdate;
+    }
+    
+    //Ex-4:    Update Multiple records with Relationship
+    public void testMethod4_system_Update(){
+        List<Contact> contacts = [SELECT Id, FirstName, LastName, Account.Name FROM Contact WHERE Account.Industry = 'Finance' with SYSTEM_MODE];
+        for(Contact con : contacts) {
+            con.FirstName = 'Updated First Name';
+            con.LastName = 'Updated Last Name';
+        }
+        update as system contacts;
+    }
+    
+    //Ex-5:    Update Single Record with Database Statement
+     public void testMethod5_system_Update(){
+        Database.update(new Account(Name='DBInsert'),false,AccessLevel.SYSTEM_MODE);
+    }
+    
+    //Ex-6:    Update Records based on a condition with Database Statement
+    public void testMethod6_system_Update(){
+    List<Contact> contactsToUpdate = [SELECT Id, FirstName, LastName, Account.Name FROM Contact WHERE Account.Industry = 'Finance' with SYSTEM_MODE];
+        for(Contact con : contactsToUpdate) {
+            if(con.Id != null){
+            con.FirstName = 'Updated First Name';
+            con.LastName = 'Updated Last Name';
+            }
+        }
+        Database.update(contactsToUpdate, true,AccessLevel.SYSTEM_MODE);
+    }
+    
+    //Ex-7:
+    public void testMethod7_system_Update(){
+    List<Contact> contactsToUpdate = [SELECT Id, FirstName, LastName, Account.Name FROM Contact WHERE Account.Industry = 'Finance' with SYSTEM_MODE];
+        for(Contact con : contactsToUpdate) {
+            con.FirstName = 'Updated First Name';
+            con.LastName = 'Updated Last Name';
+        }
+        Database.SaveResult[] updateResults = Database.update(contactsToUpdate, false,AccessLevel.SYSTEM_MODE);
+        for (Database.SaveResult result : updateResults) {
+            if (result.isSuccess()) {
+                // Insert successful
+                System.debug('Contact updated successfully.');
+            } else {
+                // Insert failed
+                for (Database.Error error : result.getErrors()) {
+                    System.debug('Error message: ' + error.getMessage());
+                }
+            }
+        }
+    }
