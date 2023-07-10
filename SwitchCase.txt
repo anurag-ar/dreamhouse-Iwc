@@ -1,0 +1,130 @@
+String productType = "clothing";
+switch (productType) {
+    case "clothing":
+        // Code to handle clothing products
+        break;
+    case "electronics":
+        // Code to handle electronic products
+        break;
+    case "books":
+        // Code to handle book products
+        break;
+    default:
+        // Code to handle cases not covered above
+        break;
+}
+
+
+int gameState = 2;
+switch (gameState) {
+    case 0:
+        // Code to handle the game starting state
+        break;
+    case 1:
+        // Code to handle the game running state
+        break;
+    case 2:
+        // Code to handle the game paused state
+        break;
+    case 3:
+        // Code to handle the game over state
+        break;
+    default:
+        // Code to handle cases not covered above
+        break;
+}
+
+
+
+import java.util.Scanner;
+
+public class WhileLoopExample {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String input = "";
+        
+        while (!input.equalsIgnoreCase("quit")) {
+            System.out.print("Enter a value (type 'quit' to exit): ");
+            input = scanner.nextLine();
+            // Process the input
+            System.out.println("You entered: " + input);
+        }
+        
+        scanner.close();
+    }
+}
+In this example, a "while" loop is used to continuously read input from the user until they enter "quit". The loop condition is based on the value of the "input" variable. Using a "while" loop in this scenario allows for flexibility in terminating the loop based on a specific condition.
+
+Example 2: Iterating over a collection with a custom condition
+
+python
+Copy code
+numbers = [1, 2, 3, 4, 5]
+index = 0
+
+while index < len(numbers) and numbers[index] != 3:
+    print(numbers[index])
+    index += 1
+In this Python example, a "while" loop is used to iterate over a list of numbers until the value 3 is encountered. The loop continues as long as the index is within the bounds of the list and the current number is not 3. This approach provides more flexibility than a "for" loop when the termination condition is based on a custom condition that cannot be easily expressed with a "for" loop's control structure.
+
+Example 3: Waiting for a certain condition to be satisfied
+
+javascript
+Copy code
+var dataReady = false;
+
+while (!dataReady) {
+    // Check if data is ready
+    if (checkDataReady()) {
+        dataReady = true;
+    } else {
+        // Wait for a while before checking again
+        sleep(1000);
+    }
+}
+
+// Proceed with data processing
+processData();
+In this JavaScript example, a "while" loop is used to wait for a certain condition (in this case, data readiness) to be satisfied before proceeding with data processing. The loop repeatedly checks if the data is ready, and if not, it waits for a specified time interval before checking again. This type of scenario is common when dealing with asynchronous operations or events.
+
+These examples demonstrate situations where a "while" loop is a more suitable choice than a "for" loop. However, it's important to note that both "for" and "while" loops have their own strengths and use cases, and the choice between them depends on the specific requirements of your program.
+
+
+import java.util.Scanner;
+
+public class WhileLoopExample {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String input = "";
+        
+        while (!input.equalsIgnoreCase("quit")) {
+            System.out.print("Enter a value (type 'quit' to exit): ");
+            input = scanner.nextLine();
+            // Process the input
+            System.out.println("You entered: " + input);
+        }
+        
+        scanner.close();
+    }
+}
+
+
+
+var dataReady = false;
+
+while (!dataReady) {
+    // Check if data is ready
+    if (checkDataReady()) {
+        dataReady = true;
+    } else {
+        // Wait for a while before checking again
+        sleep(1000);
+    }
+}
+
+// Proceed with data processing
+processData();
+
+
+
+
