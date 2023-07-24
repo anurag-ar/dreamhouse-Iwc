@@ -1,0 +1,134 @@
+public class FieldSecurityIssuesTest {
+//Ex-1: Inserting a single Record
+    public void testMethod1_user_Insert(){
+        Account acc = new Account();
+            acc.Name = 'SingleAccount';
+            acc.Phone = '1234567890';
+            insert as user acc;
+    }
+    
+    //Ex-2: Insert a record with in-line statement
+    public void testMethod2_user_Insert(){
+        insert as user new Account(Name = 'ApexHours');
+    }
+
+    //Ex-3: Inseriting Multiple Records
+    public void testMethod3_user_Insert(){
+    List<Account> accList = new List<Account>();
+    Account acc1 = new Account();
+            acc1.Name = 'Account 1';
+            acc1.Phone = '1234567890';
+            accList.add(acc1);
+
+            Account acc2 = new Account();
+            acc2.Name = 'Account 2';
+            acc2.Phone = '9876543210';
+            accList.add(acc2);
+
+            insert as user accList;
+    }
+
+    //Ex-4: Insert Records with Relationships
+    public void testMethod4_user_Insert(){
+    Account acc = new Account();
+        acc.Name = 'Sample Account';
+        acc.Industry = 'Technology';
+        
+        Contact con = new Contact();
+        con.FirstName = 'John';
+        con.LastName = 'Doe';
+        con.Email = 'johndoe@example.com';
+        con.AccountId = acc.Id; // Associate the Contact with the Account
+        
+        insert as user acc;
+        insert as user con;
+
+    }
+    
+    //Ex-5: Insert with try-catch Blocks
+    public void testMethod5_user_Insert(){
+    Account acc = new Account();
+        acc.Name = 'Try-Catch Account';
+        acc.Phone = '1234567890';
+
+        try {
+            insert as user acc;
+        } catch (DmlException e) {
+            // Handle exception
+            System.debug('An error occurred: ' + e.getMessage());
+        }
+    }
+
+    //Ex-6: Insert BULK records in Loop
+    public void testMethod6_user_Insert(){
+            List<Account> accounts = new List<Account>();
+        for (Integer i = 0; i < 1000; i++) {
+            Account acc = new Account();
+            acc.Name = 'Account ' + i;
+            acc.Industry = 'Technology';
+            accounts.add(acc);
+        }
+
+        insert as user accounts;
+
+    }
+
+    //Ex-7: Insert with DatabaseStatement
+    public void testMethod7_user_Insert(){
+        Database.insert(new Account(Name='DBInsert'),false,AccessLevel.USER_MODE);
+    }
+    
+    //Ex-8: Insert with relationships in Bulk
+    public void testMethod8_user_Insert(){
+    // Creating an Account
+        Account acc = new Account();
+        acc.Name = 'Test Account';
+        insert as user acc;
+
+        // Creating a Contact related to the Account
+        Contact con = new Contact();
+        con.FirstName = 'John';
+        con.LastName = 'Doe';
+        con.AccountId = acc.Id; // Set the relationship to the Account
+        insert as user con;
+
+       
+        // Creating multiple Opportunity records related to the Account
+        List<Opportunity> opportunities = new List<Opportunity>();
+        for (Integer i = 0; i < 5; i++) {
+            Opportunity opp = new Opportunity();
+            opp.Name = 'Test Opportunity ' + i;
+            opp.AccountId = acc.Id; // Set the relationship to the Account
+            opportunities.add(opp);
+        }
+        insert as user opportunities;
+    }
+
+    //Ex-9: Insert Bulk records with DataBase statement
+    public void testMethod9_user_Insert(){
+    List<Account> accountsToInsert = new List<Account>{
+            new Account(Name = 'Acme Corporation', Industry = 'Technology'),
+            new Account(Name = 'XYZ Inc', Industry = 'Finance')
+        };
+        Database.insert(accountsToInsert, true,AccessLevel.USER_MODE);
+    }
+    
+    //Ex-10 Insert Bulk records with DataBase Statement with Try-Catch statements
+    public void testMethod10_user_Insert(){
+    List<Contact> contactsToInsert = new List<Contact>{
+            new Contact(FirstName = 'John', LastName = 'Doe', Email = 'johndoe@example.com'),
+            new Contact(FirstName = 'Jane', LastName = 'Smith', Email = 'janesmith@example.com')
+        };
+        Database.SaveResult[] insertResults = Database.insert(contactsToInsert, false,AccessLevel.USER_MODE);
+        for (Database.SaveResult result : insertResults) {
+            if (result.isSuccess()) {
+                // Insert successful
+                System.debug('Contact inserted successfully.');
+            } else {
+                // Insert failed
+                for (Database.Error error : result.getErrors()) {
+                    System.debug('Error message: ' + error.getMessage());
+                }
+            }
+        }
+    }
