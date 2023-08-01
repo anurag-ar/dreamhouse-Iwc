@@ -1,0 +1,56 @@
+ //Ex-1: To Delete Single Record
+    public void testMethod1_user_Delete(){
+        String accName = 'SingleAccount';
+        Account acc = new Account(Name = accName);
+        delete as user acc;
+    }
+    
+    //Ex-2: To UnDelete Single Record using a Query
+    public void testMethod2_user_Delete(){
+    
+        Account accObj = [SELECT Id, Name, Industry FROM Account WHERE Id = '001XXXXXXXXXXXX' with USER_MODE];
+        delete as user accObj;
+    }
+    
+    //Ex-3: To UnDelete Multiple Records using a Query
+    public void testMethod3_user_Delete(){
+        
+        List<Contact> contacts = [SELECT Id, FirstName, LastName, Account.Name FROM Contact WHERE Account.Industry = 'Finance' with USER_MODE];
+        delete as user contacts;
+    }
+    
+    //Ex-4: To UnDelete Records with a condition
+    public void testMethod4_user_Delete(){
+        List<Account> accountsToUpdate = new List<Account>();
+        for (Account acc : [SELECT Id, Name, AnnualRevenue FROM Account WHERE AnnualRevenue > 1000000 with USER_MODE]) {
+            if(acc.AnnualRevenue != null){
+                accountsToUpdate.add(acc);
+                }
+        }
+    delete as user accountsToUpdate;
+    }
+    
+    //Ex-5: To UnDelete Records using Database Statement
+    public void testMethod5_user_Delete(){
+    
+        String accName = 'SingleAccount';
+        Database.delete(new Account(Name = accName),false,AccessLevel.USER_MODE);
+    }
+
+    //Ex-6: To Delete Bulk records with DataBase Statement with Try-Catch statements
+    public void testMethod6_user_Delete(){
+    List<Contact> contactsToDelete = [SELECT Id, FirstName, LastName, Account.Name FROM Contact WHERE Account.Name = 'Acme Corporation' and Account.Industry = 'Finance' with USER_MODE];
+        Database.DeleteResult[] deleteResults = Database.delete(contactsToDelete, false,AccessLevel.USER_MODE);
+        for (Database.DeleteResult result : deleteResults) {
+            if (result.isSuccess()) {
+                // Insert successful
+                System.debug('Contact deleted successfully.');
+            } else {
+                // Insert failed
+                for (Database.Error error : result.getErrors()) {
+                    System.debug('Error message: ' + error.getMessage());
+                }
+            }
+        }
+    }
+    
