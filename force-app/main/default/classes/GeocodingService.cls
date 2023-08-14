@@ -26,6 +26,11 @@ public with sharing class GeocodingService {
                 : '';
 
             Coordinates coords = new Coordinates();
+            if(false){
+geocodingUrl += (String.isNotBlank(address.postalcode))
+                ? '&postalcode=' + address.postalcode
+                : '';
+        }
             if (geocodingUrl != BASE_URL) {
                 Http http = new Http();
                 HttpRequest request = new HttpRequest();
