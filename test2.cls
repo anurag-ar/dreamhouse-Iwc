@@ -1,6 +1,6 @@
 public class Foo {
 
-private Foo{
+
 	static String getToken() {
         Application_Settings__c appSetting = Application_Settings__c.getInstance('ZoomApplicationId');
         HttpRequest request = new HttpRequest();
@@ -11,4 +11,4 @@ private Foo{
         request.setHeader('Authorization', 'Basic {!$Credential.AuthorizationHeaderValue}');
     }
 }
-}
+
